@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>세이프킥 헬멧 인증 대여</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=IBM+Plex+Sans+KR:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app">
+
+    <!-- ① 시작 화면: 킥보드 고르기 -->
+    <section class="screen" id="screen-home">
+      <header class="top">
+        <span class="logo">세이프킥</span>
+        <span class="top-sub">TT조 시제품</span>
+      </header>
+
+      <div class="map" aria-hidden="true">
+        <div class="map-road map-road-a"></div>
+        <div class="map-road map-road-b"></div>
+        <span class="map-pin map-pin-1">1</span>
+        <span class="map-pin map-pin-2">2</span>
+        <span class="map-pin map-pin-3">3</span>
+        <span class="map-me"></span>
+      </div>
+
+      <h1 class="title">주변 킥보드</h1>
+      <p class="desc">탈 킥보드를 골라 주세요.</p>
+      <ul class="board-list" id="board-list"></ul>
+    </section>
+
+    <!-- ② 킥보드 정보 화면 -->
+    <section class="screen" id="screen-detail" hidden>
+      <header class="top">
+        <button class="back" data-go="home" type="button">← 목록</button>
+      </header>
+
+      <p class="eyebrow">기기 번호</p>
+      <h1 class="board-id" id="detail-id">TT-0000</h1>
+
+      <dl class="info">
+        <div><dt>배터리</dt><dd id="detail-battery">0%</dd></div>
+        <div><dt>주행 가능 거리</dt><dd id="detail-range">0km</dd></div>
+        <div><dt>잠금 해제</dt><dd id="detail-unlock">0원</dd></div>
+        <div><dt>이용 요금</dt><dd id="detail-perMin">분당 0원</dd></div>
+      </dl>
+
+      <p class="notice">이 킥보드는 <strong>헬멧 착용 인증</strong>을 마쳐야 대여할 수 있어요.</p>
+
+      <button class="btn primary" data-go="guide" type="button">대여하기</button>
+    </section>
+
+    <!-- ③ 헬멧 인증 안내 화면 -->
+    <section class="screen" id="screen-guide" hidden>
+      <header class="top">
+        <button class="back" data-go="detail" type="button">← 뒤로</button>
+      </header>
+
+      <h1 class="title">헬멧 착용을 확인할게요</h1>
+      <p class="desc">헬멧을 쓰지 않으면 넘어졌을 때 머리를 크게 다칠 수 있어요. 착용이 확인되어야 잠금이 풀려요.</p>
+
+      <ol class="guide-steps">
+        <li><strong>헬멧을 쓰고</strong> 턱끈까지 채워 주세요.</li>
+        <li><strong>얼굴이 화면 가운데</strong> 오도록 카메라를 정면으로 봐 주세요.</li>
+        <li><strong>3초 동안</strong> 그대로 있으면 인증이 끝나요.</li>
+      </ol>
+
+      <button class="btn primary" id="btn-start-check" type="button">인증 시작</button>
+    </section>
+
+    <!-- ④ 카메라 인증 화면 -->
+    <section class="screen" id="screen-check" hidden>
+      <header class="top">
+        <button class="back" id="btn-cancel-check" type="button">← 취소</button>
+        <span class="top-sub" id="time-left">남은 시간 20초</span>
+      </header>
+
+      <div class="cam" id="cam-box"></div>
+
+      <p class="status" id="check-status">카메라를 켜는 중이에요...</p>
+
+      <div class="meter">
+        <div class="meter-label">
+          <span>헬멧 착용 확률</span>
+          <span id="prob-text">0%</span>
+        </div>
+        <div class="bar"><div class="bar-fill" id="prob-fill"></div><div class="bar-line"></div></div>
+      </div>
+
+      <div class="meter">
+        <div class="meter-label">
+          <span>인증 진행</span>
+          <span id="progress-text">0 / 3초</span>
+        </div>
+        <div class="bar"><div class="bar-fill pass" id="progress-fill"></div></div>
+      </div>
+
+      <!-- 모델 주소가 비어 있을 때만 보이는 시연용 버튼 -->
+      <div class="demo" data-demo hidden>
+        <p class="demo-title">시연 모드 (모델 연결 전)</p>
+        <div class="demo-buttons">
+          <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
+          <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ⑤-1 인증 성공 화면 -->
+    <section class="screen result" id="screen-pass" hidden>
+      <div class="result-mark ok">✓</div>
+      <h1 class="title">헬멧 착용 확인 완료</h1>
+      <p class="desc" id="pass-desc">킥보드 잠금이 풀렸어요.</p>
+      <button class="btn primary" id="btn-start-ride" type="button">주행 시작</button>
+    </section>
+
+    <!-- ⑤-2 인증 실패 화면 -->
+    <section class="screen result" id="screen-fail" hidden>
+      <div class="result-mark no">!</div>
+      <h1 class="title">헬멧 착용이 확인되지 않았어요</h1>
+      <p class="desc" id="fail-desc">헬멧을 쓰고 얼굴이 잘 보이게 다시 시도해 주세요.</p>
+      <button class="btn primary" id="btn-retry" type="button">다시 인증</button>
+      <button class="btn ghost" data-go="home" type="button">대여 취소</button>
+    </section>
+
+    <!-- ⑥ 주행 중 화면 -->
+    <section class="screen" id="screen-ride" hidden>
+      <header class="top">
+        <span class="logo">세이프킥</span>
+        <span class="riding-badge" id="ride-badge" data-state="on">주행 중</span>
+      </header>
+
+      <div class="ride-head">
+        <div>
+          <p class="eyebrow" id="ride-id">TT-0000</p>
+          <div class="ride-clock" id="ride-time">00:00</div>
+        </div>
+        <!-- 주행 중에도 계속 헬멧을 확인하는 작은 카메라 -->
+        <div class="cam cam-small" id="ride-cam"></div>
+      </div>
+
+      <!-- 상태 알림: 착용 중 / 경고 / 시동 꺼짐 -->
+      <div class="alert" id="ride-alert" data-state="on">
+        <strong id="ride-alert-title">헬멧 착용 중</strong>
+        <span id="ride-alert-text">주행 중에도 카메라로 계속 확인해요.</span>
+        <div class="bar" id="ride-alert-bar" hidden><div class="bar-fill" id="ride-alert-fill"></div></div>
+      </div>
+
+      <dl class="info">
+        <div><dt>현재 요금</dt><dd id="ride-fee">0원</dd></div>
+        <div><dt>헬멧 착용 확률</dt><dd id="ride-prob">0%</dd></div>
+      </dl>
+
+      <div class="demo" data-demo hidden>
+        <p class="demo-title">시연 모드 (모델 연결 전)</p>
+        <div class="demo-buttons">
+          <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
+          <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
+        </div>
+      </div>
+
+      <button class="btn primary" id="btn-return" type="button">반납하기</button>
+    </section>
+
+    <!-- ⑦ 반납 완료 화면 -->
+    <section class="screen result" id="screen-done" hidden>
+      <div class="result-mark ok">✓</div>
+      <h1 class="title">반납 완료</h1>
+
+      <dl class="info">
+        <div><dt>이용 시간</dt><dd id="done-time">0분 0초</dd></div>
+        <div><dt>결제 금액</dt><dd id="done-fee">0원</dd></div>
+        <div><dt>헬멧 경고</dt><dd id="done-warn">0회</dd></div>
+        <div><dt>시동 꺼짐</dt><dd id="done-off">0회</dd></div>
+      </dl>
+
+      <button class="btn primary" data-go="home" type="button">처음으로</button>
+    </section>
+
+  </div>
+
+  <!-- 티처블 머신 라이브러리 (버전을 고정해 두었어요) -->
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.3.1/dist/tf.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@0.8.5/dist/teachablemachine-image.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

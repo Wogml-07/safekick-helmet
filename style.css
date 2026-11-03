@@ -1,0 +1,358 @@
+/* 휴대폰 한 화면 크기의 앱. 화면(section)을 하나씩만 보여 줘요. */
+:root {
+  --ground: #EEF2F0;      /* 바탕 */
+  --card: #FFFFFF;        /* 카드 */
+  --ink: #17221E;         /* 글자 */
+  --muted: #5F6E68;       /* 흐린 글자 */
+  --line: #D5DDD9;        /* 테두리 */
+  --brand: #0B6E64;       /* 대표 색 (청록) */
+  --brand-soft: #D9EEEA;
+  --helmet: #F26B1D;      /* 헬멧 강조 색 (주황) */
+  --helmet-soft: #FDE7DA;
+  --ok: #138A4B;
+  --no: #C8362B;
+
+  --font-logo: "Black Han Sans", "IBM Plex Sans KR", sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+
+html, body { margin: 0; }
+body {
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+.app {
+  max-width: 420px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  background: var(--card);
+  padding-block: max(16px, env(safe-area-inset-top)) max(24px, env(safe-area-inset-bottom));
+  padding-left: max(20px, env(safe-area-inset-left));
+  padding-right: max(20px, env(safe-area-inset-right));
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  animation: slide-in 0.25s ease-out;
+}
+@keyframes slide-in {
+  from { transform: translateX(12px); opacity: 0.4; }
+  to   { transform: none; opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .screen { animation: none; }
+}
+
+/* 상단 줄 */
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 40px;
+}
+.logo {
+  font-family: var(--font-logo);
+  font-size: 24px;
+  color: var(--brand);
+  letter-spacing: 0.02em;
+}
+.top-sub { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.back {
+  border: 0;
+  background: none;
+  padding: 8px 0;
+  font: inherit;
+  font-size: 15px;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+/* 글자 */
+.title { margin: 0; font-size: 24px; line-height: 1.3; text-wrap: balance; }
+.desc  { margin: 0; color: var(--muted); }
+.eyebrow {
+  margin: 0;
+  font-size: 13px;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.board-id {
+  margin: -12px 0 0;
+  font-family: var(--font-logo);
+  font-size: 44px;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+/* 가짜 지도 */
+.map {
+  position: relative;
+  height: 170px;
+  border-radius: 16px;
+  background: #E4ECE7;
+  overflow: hidden;
+}
+.map-road { position: absolute; background: #FFFFFF; }
+.map-road-a { left: -10%; right: -10%; top: 58%; height: 22px; transform: rotate(-8deg); }
+.map-road-b { top: -10%; bottom: -10%; left: 38%; width: 18px; transform: rotate(14deg); }
+.map-pin {
+  position: absolute;
+  width: 30px; height: 30px;
+  border-radius: 50%;
+  border: 3px solid #fff;
+  background: var(--brand);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+.map-pin-1 { left: 22%; top: 24%; }
+.map-pin-2 { left: 62%; top: 30%; }
+.map-pin-3 { left: 76%; top: 64%; }
+.map-me {
+  position: absolute; left: 46%; top: 54%;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--helmet);
+  box-shadow: 0 0 0 6px rgba(242, 107, 29, 0.25);
+}
+
+/* 킥보드 목록 */
+.board-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.board {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 34px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: var(--card);
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.board:hover { border-color: var(--brand); }
+.board-num {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--brand-soft); color: var(--brand);
+  display: grid; place-items: center;
+  font-weight: 700;
+}
+.board-name { font-weight: 700; }
+.board-meta { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.battery {
+  width: 54px; height: 8px; border-radius: 4px; background: var(--line); overflow: hidden;
+}
+.battery span { display: block; height: 100%; background: var(--ok); }
+.battery.low span { background: var(--helmet); }
+
+/* 정보 표 */
+.info {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.info div { background: var(--card); padding: 12px 14px; }
+.info dt { font-size: 13px; color: var(--muted); }
+.info dd { margin: 2px 0 0; font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.notice {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--helmet-soft);
+  color: #8A3A0C;
+  font-size: 14px;
+}
+.notice strong { color: var(--helmet); }
+
+/* 안내 순서 */
+.guide-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: step;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.guide-steps li {
+  counter-increment: step;
+  position: relative;
+  padding-left: 40px;
+  min-height: 28px;
+  padding-top: 1px;
+}
+.guide-steps li::before {
+  content: counter(step);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--brand); color: #fff;
+  font-weight: 700; font-size: 14px;
+  display: grid; place-items: center;
+}
+
+/* 버튼 */
+.btn {
+  width: 100%;
+  min-height: 54px;
+  border-radius: 14px;
+  border: 0;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn.primary { background: var(--brand); color: #fff; margin-top: 8px; }
+.btn.primary:active { background: #095A52; }
+.btn.ghost { background: none; color: var(--muted); }
+button:focus-visible { outline: 3px solid var(--helmet); outline-offset: 2px; }
+
+/* 카메라 */
+.cam {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  max-width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  background: #1C2622;
+  display: grid;
+  place-items: center;
+  position: relative;
+}
+.cam canvas, .cam svg { width: 100%; height: 100%; display: block; }
+.cam::after {             /* 얼굴을 맞출 가이드 원 */
+  content: "";
+  position: absolute;
+  inset: 14%;
+  border: 3px dashed rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  pointer-events: none;
+}
+.cam.ok::after { border-style: solid; border-color: var(--ok); }
+
+.status { margin: 0; font-weight: 700; text-align: center; min-height: 1.55em; }
+.status.ok { color: var(--ok); }
+.status.no { color: var(--no); }
+
+.meter { display: flex; flex-direction: column; gap: 6px; }
+.meter-label {
+  display: flex; justify-content: space-between;
+  font-size: 14px; color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.bar { position: relative; height: 10px; border-radius: 5px; background: var(--line); overflow: hidden; }
+.bar-fill { height: 100%; width: 0; background: var(--helmet); transition: width 0.15s linear; }
+.bar-fill.pass { background: var(--ok); }
+.bar-line {               /* 80% 기준선 */
+  position: absolute; top: 0; bottom: 0; left: 80%;
+  width: 2px; background: var(--ink);
+}
+
+/* 시연 모드 */
+.demo {
+  padding: 12px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.demo-title { margin: 0; font-size: 13px; color: var(--muted); }
+.demo-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.chip {
+  min-height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--card);
+  font: inherit; font-size: 14px;
+  cursor: pointer;
+}
+.chip[aria-pressed="true"] { background: var(--ink); color: #fff; border-color: var(--ink); }
+
+/* 결과 화면 */
+.result { text-align: center; padding-top: 48px; align-items: center; }
+.result .info { width: 100%; text-align: left; }
+.result-mark {
+  width: 84px; height: 84px; border-radius: 50%;
+  display: grid; place-items: center;
+  font-size: 40px; font-weight: 700; color: #fff;
+}
+.result-mark.ok { background: var(--ok); }
+.result-mark.no { background: var(--no); }
+
+/* 주행 중 */
+.riding-badge {
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--brand-soft); color: var(--brand);
+  font-size: 13px; font-weight: 700;
+}
+.riding-badge[data-state="warning"] { background: var(--helmet-soft); color: var(--helmet); }
+.riding-badge[data-state="off"]     { background: #FBE0DD; color: var(--no); }
+
+.ride-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.ride-clock {
+  font-family: var(--font-logo);
+  font-size: 60px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+  margin-top: 6px;
+}
+.cam-small {
+  width: 120px;
+  flex-shrink: 0;
+  border-radius: 16px;
+}
+.cam-small::after { border-width: 2px; }
+
+/* 주행 중 알림 */
+.alert {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  background: var(--brand-soft);
+  color: var(--brand);
+}
+.alert strong { font-size: 18px; }
+.alert span { color: var(--ink); font-size: 14px; }
+.alert[data-state="warning"] {
+  background: var(--helmet-soft);
+  color: var(--helmet);
+  animation: blink 1s ease-in-out infinite;
+}
+.alert[data-state="warning"] .bar-fill { background: var(--helmet); }
+.alert[data-state="off"] { background: #FBE0DD; color: var(--no); }
+.alert[data-state="off"] .bar-fill { background: var(--ok); }
+@keyframes blink {
+  50% { box-shadow: 0 0 0 4px rgba(242, 107, 29, 0.35); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .alert[data-state="warning"] { animation: none; }
+}
+
+/* 오류 문장이 길어도 화면 밖으로 넘치지 않게 */
+.status { overflow-wrap: anywhere; }
