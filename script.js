@@ -7,7 +7,7 @@
 // 티처블 머신에서 [모델 업로드] 후 받은 주소를 넣으세요.
 // 비워 두면 버튼으로 흉내 내는 "시연 모드"로 동작해요.
 // 예) "https://teachablemachine.withgoogle.com/models/AbCdEf123/"
-const MODEL_URL = "";
+const MODEL_URL = "https://teachablemachine.withgoogle.com/models/YsfzHJrai/";
 
 // 티처블 머신에서 정한 클래스 이름과 글자 하나까지 똑같아야 해요.
 const HELMET_CLASS = "헬멧 착용";
