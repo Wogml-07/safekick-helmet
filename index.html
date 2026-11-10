@@ -31,6 +31,18 @@
       <h1 class="title">주변 킥보드</h1>
       <p class="desc">탈 킥보드를 골라 주세요.</p>
       <ul class="board-list" id="board-list"></ul>
+
+      <!-- 개발자 모드 스위치: 켜면 헬멧 없이 버튼으로 착용 여부를 흉내 낼 수 있어요 -->
+      <label class="dev-row" for="dev-toggle">
+        <span class="dev-text">
+          <strong>개발자 모드</strong>
+          <span class="dev-note" id="dev-note">헬멧 없이 버튼으로 착용 여부를 흉내 내요.</span>
+        </span>
+        <span class="switch">
+          <input type="checkbox" id="dev-toggle">
+          <span class="track"></span>
+        </span>
+      </label>
     </section>
 
     <!-- ② 킥보드 정보 화면 -->
@@ -76,7 +88,7 @@
     <section class="screen" id="screen-check" hidden>
       <header class="top">
         <button class="back" id="btn-cancel-check" type="button">← 취소</button>
-        <span class="top-sub" id="time-left">남은 시간 20초</span>
+        <span class="top-sub" id="time-left">남은 시간 60초</span>
       </header>
 
       <div class="cam" id="cam-box"></div>
@@ -99,9 +111,9 @@
         <div class="bar"><div class="bar-fill pass" id="progress-fill"></div></div>
       </div>
 
-      <!-- 모델 주소가 비어 있을 때만 보이는 시연용 버튼 -->
+      <!-- 개발자 모드일 때만 보이는 버튼 -->
       <div class="demo" data-demo hidden>
-        <p class="demo-title">시연 모드 (모델 연결 전)</p>
+        <p class="demo-title">개발자 모드</p>
         <div class="demo-buttons">
           <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
           <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
@@ -155,7 +167,7 @@
       </dl>
 
       <div class="demo" data-demo hidden>
-        <p class="demo-title">시연 모드 (모델 연결 전)</p>
+        <p class="demo-title">개발자 모드</p>
         <div class="demo-buttons">
           <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
           <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
