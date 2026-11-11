@@ -12,10 +12,50 @@
 <body>
   <div class="app">
 
-    <!-- ① 시작 화면: 킥보드 고르기 -->
-    <section class="screen" id="screen-home">
+    <!-- ⓪ 설문 화면: 체험 전에 1차 설문부터 안내해요 -->
+    <section class="screen" id="screen-survey">
       <header class="top">
         <span class="logo">세이프킥</span>
+        <span class="top-sub">TT조 시제품</span>
+      </header>
+
+      <p class="eyebrow">한성대학교 2026-2학기 「AI+X 전공디자인 프리캡스톤」</p>
+      <h1 class="title">전동킥보드 헬멧 인증 대여 체험</h1>
+
+      <!-- 소개: 어떤 수업에서, 누가, 왜 만든 것인지 -->
+      <div class="about">
+        <p>서울시의 도시 문제를 청년의 시각에서 해결해 보는 팀 프로젝트 수업이에요.</p>
+        <p>TT조는 <strong>'미래 모빌리티 &amp; 스마트시티'</strong> 주제로 전동킥보드 헬멧 문제를 다루고 있어요.</p>
+        <p>지금은 만든 시제품을 실제 이용자에게 보여 드리고 의견을 듣는 단계예요. 헬멧을 써야 킥보드를 빌릴 수 있는 방식을 직접 써 보고 의견을 들려주세요.</p>
+      </div>
+
+      <h2 class="sub-title">참여 순서</h2>
+      <ol class="guide-steps">
+        <li><strong>1차 설문</strong>에 응답해요.</li>
+        <li>이 화면으로 돌아와 <strong>헬멧 인증 대여를 체험</strong>해요.</li>
+        <li>체험이 끝나면 <strong>2차 설문</strong>에 응답해요.</li>
+      </ol>
+
+      <!-- 안내 상자: 개인정보·카메라·결제에 대한 안내 -->
+      <div class="promise">
+        <p class="promise-title">안심하고 참여하세요</p>
+        <ul>
+          <li>설문 응답은 수업 과제에만 쓰고, 과제가 끝나면 모두 폐기해요.</li>
+          <li>카메라 영상은 이 기기 안에서만 확인하고, 저장하거나 전송하지 않아요.</li>
+          <li>실제 결제나 대여는 일어나지 않는 체험용 화면이에요.</li>
+        </ul>
+      </div>
+
+      <a class="survey-link" id="survey-link-1" href="#" target="_blank" rel="noopener">1차 설문 하러 가기 →</a>
+      <button class="btn ghost" data-go="home" type="button">설문을 마쳤어요 · 체험 시작</button>
+
+      <p class="made-by">만든 사람 · 한성대학교 TT조</p>
+    </section>
+
+    <!-- ① 킥보드 고르기 화면 -->
+    <section class="screen" id="screen-home" hidden>
+      <header class="top">
+        <button class="back" data-go="survey" type="button">← 설문</button>
         <span class="top-sub">TT조 시제품</span>
       </header>
 
@@ -32,11 +72,11 @@
       <p class="desc">탈 킥보드를 골라 주세요.</p>
       <ul class="board-list" id="board-list"></ul>
 
-      <!-- 개발자 모드 스위치: 켜면 헬멧 없이 버튼으로 착용 여부를 흉내 낼 수 있어요 -->
+      <!-- 헬멧 없이 체험 모드 스위치: 켜면 헬멧 없이 버튼으로 착용 여부를 흉내 낼 수 있어요 -->
       <label class="dev-row" for="dev-toggle">
         <span class="dev-text">
-          <strong>개발자 모드</strong>
-          <span class="dev-note" id="dev-note">헬멧 없이 버튼으로 착용 여부를 흉내 내요.</span>
+          <strong>헬멧 없이 체험</strong>
+          <span class="dev-note" id="dev-note">지금 헬멧이 없다면 켜 주세요. 버튼으로 착용 여부를 대신 골라요.</span>
         </span>
         <span class="switch">
           <input type="checkbox" id="dev-toggle">
@@ -111,9 +151,9 @@
         <div class="bar"><div class="bar-fill pass" id="progress-fill"></div></div>
       </div>
 
-      <!-- 개발자 모드일 때만 보이는 버튼 -->
+      <!-- 헬멧 없이 체험 모드일 때만 보이는 버튼 -->
       <div class="demo" data-demo hidden>
-        <p class="demo-title">개발자 모드</p>
+        <p class="demo-title">헬멧 없이 체험 중 · 착용 여부를 골라 주세요</p>
         <div class="demo-buttons">
           <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
           <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
@@ -167,7 +207,7 @@
       </dl>
 
       <div class="demo" data-demo hidden>
-        <p class="demo-title">개발자 모드</p>
+        <p class="demo-title">헬멧 없이 체험 중 · 착용 여부를 골라 주세요</p>
         <div class="demo-buttons">
           <button class="chip demo-on" type="button" aria-pressed="false">헬멧 쓴 상태</button>
           <button class="chip demo-off" type="button" aria-pressed="true">헬멧 벗은 상태</button>
@@ -189,7 +229,13 @@
         <div><dt>시동 꺼짐</dt><dd id="done-off">0회</dd></div>
       </dl>
 
-      <button class="btn primary" data-go="home" type="button">처음으로</button>
+      <!-- 2차 설문 링크: 체험이 끝난 뒤 웹사이트에 대한 의견을 받아요 -->
+      <div class="survey">
+        <p class="survey-text"><strong>체험 후 2차 설문</strong> 방금 써 본 웹사이트에 대한 의견을 들려주세요.</p>
+        <a class="survey-link" id="survey-link-2" href="#" target="_blank" rel="noopener">2차 설문 하러 가기 →</a>
+      </div>
+
+      <button class="btn ghost" data-go="home" type="button">처음으로</button>
     </section>
 
   </div>
