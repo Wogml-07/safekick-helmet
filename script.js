@@ -4,8 +4,12 @@
 
 // ----- 1. 설정값 (여기만 바꾸면 돼요) -----
 
+// 설문 링크 (구글 폼 주소가 나오면 따옴표 안의 주소만 바꾸면 돼요)
+const SURVEY_1_URL = "https://forms.gle/1차설문-임시주소";  // 체험 전 1차 설문 → 맨 처음 설문 화면에 보여요
+const SURVEY_2_URL = "https://forms.gle/2차설문-임시주소";  // 체험 후 2차 설문 → 반납 완료 화면에 보여요
+
 // 티처블 머신에서 [모델 업로드] 후 받은 주소를 넣으세요.
-// 비워 두면 버튼으로 흉내 내는 "개발자 모드"로만 동작해요.
+// 비워 두면 버튼으로 흉내 내는 "헬멧 없이 체험 모드"로만 동작해요.
 // 예) "https://teachablemachine.withgoogle.com/models/AbCdEf123/"
 const MODEL_URL = "https://teachablemachine.withgoogle.com/models/YsfzHJrai/";
 
@@ -41,15 +45,15 @@ const KICKBOARDS = [
 
 const hasModel = MODEL_URL.trim() !== "";  // 모델 주소를 넣었는지
 
-// 개발자 모드: 카메라·AI 대신 버튼으로 헬멧 착용 여부를 흉내 내요.
+// 헬멧 없이 체험 모드: 카메라·AI 대신 버튼으로 헬멧 착용 여부를 흉내 내요.
 // 시작 화면의 스위치로 켜고 끌 수 있고, 모델 주소가 비어 있으면 항상 켜져 있어요.
 let devMode = !hasModel;
 
 let selectedBoard = null;  // 고른 킥보드
 let model = null;          // 불러온 AI 모델 (한 번만 불러옴)
 let webcam = null;         // 카메라
-let camBox = null;         // 지금 카메라(또는 개발자 모드 그림)를 보여 주는 칸
-let demoWearing = false;   // 개발자 모드에서 "헬멧 쓴 상태"를 골랐는지
+let camBox = null;         // 지금 카메라(또는 헬멧 없이 체험 모드 그림)를 보여 주는 칸
+let demoWearing = false;   // 헬멧 없이 체험 모드에서 "헬멧 쓴 상태"를 골랐는지
 
 // 대여 전 인증
 let checkStartTime = 0;
@@ -76,7 +80,7 @@ function showScreen(name) {
   window.scrollTo(0, 0);
 
   // 대여 전 화면으로 돌아가면 카메라 끄기
-  if (name === "home" || name === "detail") {
+  if (name === "survey" || name === "home" || name === "detail") {
     stopLoop();
     stopCamera();
   }
@@ -149,7 +153,7 @@ function stopCamera() {
   }
 }
 
-// 카메라 화면(또는 개발자 모드 그림)을 어느 칸에 보여 줄지 정하기
+// 카메라 화면(또는 헬멧 없이 체험 모드 그림)을 어느 칸에 보여 줄지 정하기
 function showCameraIn(box) {
   camBox = box;
   box.innerHTML = "";
@@ -481,7 +485,7 @@ function rideFee(seconds) {
 }
 
 
-// ----- 10. 개발자 모드 (헬멧 없이 흐름 확인용) -----
+// ----- 10. 헬멧 없이 체험 모드 (헬멧 없이 흐름 확인용) -----
 
 const devToggle = $("dev-toggle");
 
@@ -497,7 +501,7 @@ devToggle.addEventListener("change", () => setDevMode(devToggle.checked));
 
 if (!hasModel) {
   devToggle.disabled = true;
-  $("dev-note").textContent = "AI 모델이 연결되지 않아 개발자 모드로만 동작해요.";
+  $("dev-note").textContent = "지금은 헬멧 없이 체험하는 방식으로만 동작해요.";
 }
 setDevMode(false);
 document.querySelectorAll(".demo-on").forEach((b) => b.addEventListener("click", () => setDemoWearing(true)));
@@ -541,8 +545,11 @@ function won(amount) {
 // ----- 시작 -----
 // 확률 막대의 기준선을 PASS_PROBABILITY 위치에 맞추기
 document.querySelector(".bar-line").style.left = PASS_PROBABILITY * 100 + "%";
+// 설문 링크 버튼에 위에서 정한 주소 넣기
+$("survey-link-1").href = SURVEY_1_URL;
+$("survey-link-2").href = SURVEY_2_URL;
 renderBoardList();
-showScreen("home");
+showScreen("survey");  // 사이트를 열면 설문 화면부터 보여요
 
 // 사이트가 열리자마자 AI 모델을 미리 내려받아 둬요 (킥보드를 고르는 동안 준비)
 if (hasModel) loadModel().catch(() => {}); // 오류는 [인증 시작] 때 화면에 보여 줘요
