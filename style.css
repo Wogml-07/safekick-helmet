@@ -183,6 +183,64 @@ body {
 }
 .notice strong { color: var(--helmet); }
 
+/* 설문 링크 상자 (시작 화면: 1차 설문 / 반납 완료 화면: 2차 설문) */
+.survey {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  background: var(--brand-soft);
+  text-align: left;
+}
+.survey-text { margin: 0; font-size: 14px; color: var(--ink); }
+.survey-text strong { display: block; font-size: 15px; color: var(--brand); }
+.survey-link {
+  display: grid;
+  place-items: center;
+  min-height: 54px;
+  border-radius: 12px;
+  background: var(--brand);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+}
+.survey-link:active { background: #095A52; }
+.survey-link:focus-visible { outline: 3px solid var(--helmet); outline-offset: 2px; }
+
+/* 설문 화면: 수업 소개 · 안내 상자 · 만든 사람 */
+.about { display: flex; flex-direction: column; gap: 8px; color: var(--muted); }
+.about p { margin: 0; }
+.about strong { color: var(--ink); }
+.sub-title { margin: 4px 0 -4px; font-size: 15px; }
+.promise {
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--ground);
+  font-size: 14px;
+}
+.promise-title { margin: 0 0 8px; font-weight: 700; color: var(--brand); }
+.promise ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; }
+.made-by { margin: 0; text-align: center; font-size: 13px; color: var(--muted); }
+
+/* 설문 화면은 스크롤 없이 한 화면에 보이도록 글자와 간격을 줄였어요 */
+#screen-survey { gap: 9px; }
+#screen-survey .top { min-height: 28px; }
+#screen-survey .eyebrow { font-size: 11.5px; letter-spacing: 0; }
+#screen-survey .title { font-size: 20px; margin: 0; }
+#screen-survey .about { gap: 4px; font-size: 13px; line-height: 1.45; }
+#screen-survey .sub-title { font-size: 13px; margin: 2px 0 -3px; }
+#screen-survey .guide-steps { gap: 5px; font-size: 13px; line-height: 1.45; }
+#screen-survey .guide-steps li { padding-left: 28px; min-height: 20px; padding-top: 0; }
+#screen-survey .guide-steps li::before { width: 20px; height: 20px; font-size: 11.5px; }
+#screen-survey .promise { padding: 9px 12px; font-size: 12px; line-height: 1.45; }
+#screen-survey .promise-title { margin-bottom: 4px; font-size: 12.5px; }
+#screen-survey .promise ul { gap: 2px; padding-left: 16px; }
+#screen-survey .survey-link { min-height: 46px; font-size: 15px; }
+#screen-survey .btn.ghost { min-height: 36px; font-size: 14px; }
+#screen-survey .made-by { font-size: 11.5px; }
+
 /* 안내 순서 */
 .guide-steps {
   margin: 0;
@@ -289,7 +347,7 @@ button:focus-visible { outline: 3px solid var(--helmet); outline-offset: 2px; }
 
 /* 결과 화면 */
 .result { text-align: center; padding-top: 48px; align-items: center; }
-.result .info { width: 100%; text-align: left; }
+.result .info, .result .survey { width: 100%; text-align: left; }
 .result-mark {
   width: 84px; height: 84px; border-radius: 50%;
   display: grid; place-items: center;
