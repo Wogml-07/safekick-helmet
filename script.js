@@ -5,8 +5,8 @@
 // ----- 1. 설정값 (여기만 바꾸면 돼요) -----
 
 // 설문 링크 (구글 폼 주소가 나오면 따옴표 안의 주소만 바꾸면 돼요)
-const SURVEY_1_URL = "https://docs.google.com/forms/d/e/1FAIpQLSffXu6LiA-rMsAL96_sl_RPNV-AljrJRT0wVzSbigFyVZ-f_Q/viewform?usp=header";  // 체험 전 1차 설문 → 맨 처음 설문 화면에 보여요
-const SURVEY_2_URL = "https://docs.google.com/forms/d/e/1FAIpQLSda6vF51R5UCWbrso5i9q05raTT4cpNBw-jDPmS-W6PYBxTzQ/formResponse";  // 체험 후 2차 설문 → 반납 완료 화면에 보여요
+const SURVEY_1_URL = "https://docs.google.com/forms/d/e/1FAIpQLSffXu6LiA-rMsAL96_sl_RPNV-AljrJRT0wVzSbigFyVZ-f_Q/viewform";  // 체험 전 1차 설문 → 맨 처음 설문 화면에 보여요
+const SURVEY_2_URL = "https://docs.google.com/forms/d/e/1FAIpQLSda6vF51R5UCWbrso5i9q05raTT4cpNBw-jDPmS-W6PYBxTzQ/viewform";  // 체험 후 2차 설문 → 반납 완료 화면에 보여요
 
 // 티처블 머신에서 [모델 업로드] 후 받은 주소를 넣으세요.
 // 비워 두면 버튼으로 흉내 내는 "헬멧 없이 체험 모드"로만 동작해요.
